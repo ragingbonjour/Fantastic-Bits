@@ -61,8 +61,8 @@ class Player {
 class Entity {
 	
 	protected static byte side_bias = 0;
-	protected static int entityID = 0;
-	protected static String entityType = "UNASSIGNED";
+	protected int entityID = 0;
+	protected String entityType = "UNASSIGNED";
 	// POSITION
 	protected static int position_x = 0;
 	protected static int position_y = 0;
@@ -88,36 +88,33 @@ class Entity {
 	public static int getVelocityY() { return velocity_y; }
 	
 	public Entity(int entityID, String entityType, int x, int y, int vy, int vx, int state) {
-		Entity.entityID = entityID;
-		Entity.entityType = entityType;
+		this.entityID = entityID;
+		this.entityType = entityType;
 		position_x = x;
 		position_y = y;
 		velocity_x = vx;
 		velocity_y = vy;
-		Entity.state = state;
+		this.state = state;
 	}
 }
 
 class Wizard extends Entity{
-
 	public Wizard(int entityID, String entityType, int x, int y, int vy, int vx, int state) {
 		super(entityID, entityType, x, y, vy, vx, state);
+		System.out.println("Creating wizard state...");
 	}
-	
 }
 
 class Snaffle extends Entity{
-
 	public Snaffle(int entityID, String entityType, int x, int y, int vy, int vx, int state) {
 		super(entityID, entityType, x, y, vy, vx, state);
-	}
-	
+		System.out.println("Creating snaffle state...");
+	}	
 }
 
 class Opponent extends Entity {
-
 	public Opponent(int entityID, String entityType, int x, int y, int vy, int vx, int state) {
 		super(entityID, entityType, x, y, vy, vx, state);
-	}
-	
+		System.out.println("Creating Opponent state...");
+	}	
 }
