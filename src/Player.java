@@ -4,7 +4,7 @@ import java.math.*;
 
 /**
  * Grab Snaffles and try to throw them through the opponent's goal!
- * Move towards a Snaffle and use your team id to determine where you need to throw it.
+ * Move towards a Snaffle and use your team id to determine where you need to throw it
  **/
 class Player {
 
@@ -37,8 +37,8 @@ class Player {
                 
                 // public Entity(int entityID, String entityType, int x, int y, int vy, int vx, int state) {
                 if(entityType.equals("WIZARD")) Wizards.add(new Wizard(entityId, entityType, x, y, vx, vy, state));
-                if(entityType.equals("OPPONENT_WIZARD")) Opponents.add(new Opponent(entityId, entityType, x, y, vx, vy, state));
-                if(entityType.equals("SNAFFLE")) Snaffles.add(new Snaffle(entityId, entityType, x, y, vx, vy, state));
+                else if(entityType.equals("OPPONENT_WIZARD")) Opponents.add(new Opponent(entityId, entityType, x, y, vx, vy, state));
+                else if(entityType.equals("SNAFFLE")) Snaffles.add(new Snaffle(entityId, entityType, x, y, vx, vy, state));
 
                 
                 
