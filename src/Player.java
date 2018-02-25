@@ -25,6 +25,7 @@ class Player {
             int opponentMagic = in.nextInt();
             int entities = in.nextInt(); // number of entities still in game
             
+            // Grab the input from the game regarding the position of where each of the elements are
             for (int i = 0; i < entities; i++) {
             	
                 int entityId = in.nextInt(); // entity identifier
@@ -35,16 +36,24 @@ class Player {
                 int vy = in.nextInt(); // velocity
                 int state = in.nextInt(); // 1 if the wizard is holding a Snaffle, 0 otherwise
                 
-                // public Entity(int entityID, String entityType, int x, int y, int vy, int vx, int state) {
+                /* 
+                 * public Entity(int entityID, String entityType, int x, int y, int vy, int vx, int state) { 
+                 * */
                 if(entityType.equals("WIZARD")) Wizards.add(new Wizard(entityId, entityType, x, y, vx, vy, state));
                 else if(entityType.equals("OPPONENT_WIZARD")) Opponents.add(new Opponent(entityId, entityType, x, y, vx, vy, state));
-                else if(entityType.equals("SNAFFLE")) Snaffles.add(new Snaffle(entityId, entityType, x, y, vx, vy, state));
-
-                
-                
+                else if(entityType.equals("SNAFFLE")) Snaffles.add(new Snaffle(entityId, entityType, x, y, vx, vy, state));   
             }
+            
+           
+            
+            
+            // ACTIONS FOR JUST THE FIRST TWO WIZARDS - THE ONES WE CONTROL
             for (int i = 0; i < 2; i++) {
 
+            	// Implement logic to get the hyponenuse of where to go for each of the bludgers, maybe take into account 
+            	// the velocity of each as well.
+            	
+            	
             	
                 // Write an action using System.out.println()
                 // To debug: System.err.println("Debug messages...");
@@ -56,11 +65,43 @@ class Player {
             }
         }
     }
+    
+//    Get HYPONENUSE function 
+    public static int EVALUATE_DISTANCE_TO_GOAL(Entity entity, byte teamID) {
+    	// Make priority depending on which goal we require to score on
+    	int[] targetCoordinates = null;
+    	
+    	if(teamID == 0) {
+    		// Defines the range for where is needed to score (both here and the other loop below)
+    		int[] temp = { 0, (Entity.POLE_CENTER_Y - 2000), (Entity.POLE_CENTER_Y + 2000) };
+    		targetCoordinates = temp;
+    	} else if(teamID == 1) {
+    		// [ goal_center_coordinate, lowest_point, highest_point ]
+    		int[] temp = { Entity.BOARD_X, (Entity.POLE_CENTER_Y - 2000), (Entity.POLE_CENTER_Y + 2000) };
+    		targetCoordinates = temp;
+    	}
+		
+    	
+    	// Return where to go to whatever object you want
+    	// 1's = snaffle, 0's = goal position
+    	//DISTANCE_TO_ENTITY = Math.sqrt( (x2-x1)^2 + (y2-y1)^2 );
+    	
+    	return 696969;
+    }
+    
+    public static double EVALUATE_DISTANCE_TO_SNAFFLE(Wizard WIZARD, Snaffle SNAFFLE) {
+		
+    	double distance = (Math.sqrt( Math.pow( SNAFFLE.position_x - WIZARD.position_x, 2 ) + 
+    			Math.pow( SNAFFLE.position_y - WIZARD.position_y, 2 )));
+    	
+		return distance;
+    }
+    
 }
 
 class Entity {
 	
-	protected static byte side_bias = 0;
+	public static byte side_bias = 0;
 	protected int entityID = 0;
 	protected String entityType = "UNASSIGNED";
 	// POSITION
@@ -72,12 +113,19 @@ class Entity {
 	
 	protected static int state = 0; // 0 = NOT HOLDING, 1 = HOLDING
 	
-	final static int board_x = 16001;
-	final int board_y = 7501;
+	
+	// Modifications to the primary board
+	final static int BOARD_X = 16001;
+	final int BOARD_Y = 7501;
+	final short DISK_RADIUS = 400;
+	final short POLE_RADIUS = 300;
+	final static int POLE_CENTER_Y = 3750;
+	// static int DISTANCE_TO_ENTITY;
+	
 	
 	// Establish what side we should consider our goals to be, attempt to score on other side
-	public static void entitySetup(int x_coord) {
-		if(x_coord < board_x/2) { side_bias = 0; } 
+	public static void entitySetup() {
+		if(position_x < BOARD_X/2) { side_bias = 0; } 
 		else { side_bias = 1; }
 	}
 	
@@ -94,7 +142,7 @@ class Entity {
 		position_y = y;
 		velocity_x = vx;
 		velocity_y = vy;
-		this.state = state;
+		Entity.state = state;
 	}
 }
 
@@ -118,3 +166,4 @@ class Opponent extends Entity {
 		System.out.println("Creating Opponent state...");
 	}	
 }
+
