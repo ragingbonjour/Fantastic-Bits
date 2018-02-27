@@ -61,13 +61,14 @@ class Player {
 
                 // Edit this line to indicate the action for each wizard (0 ≤ thrust ≤ 150, 0 ≤ power ≤ 500)
                 // i.e.: "MOVE x y thrust" or "THROW x y power"
+            	System.out.println(movement, x_coord, y_coord, force);
                 System.out.println("MOVE 8000 3750 100");
             }
         }
     }
     
 //    Get HYPONENUSE function 
-    public static int EVALUATE_DISTANCE_TO_GOAL(Entity entity, byte teamID) {
+    public static int[] EVALUATE_DISTANCE_TO_GOAL(Entity entity, byte teamID) {
     	// Make priority depending on which goal we require to score on
     	int[] targetCoordinates = null;
     	
@@ -82,19 +83,18 @@ class Player {
     	}
 		
     	
+    	
     	// Return where to go to whatever object you want
     	// 1's = snaffle, 0's = goal position
-    	//DISTANCE_TO_ENTITY = Math.sqrt( (x2-x1)^2 + (y2-y1)^2 );
     	
     	return 696969;
     }
     
-    public static double EVALUATE_DISTANCE_TO_SNAFFLE(Wizard WIZARD, Snaffle SNAFFLE) {
-		
-    	double distance = (Math.sqrt( Math.pow( SNAFFLE.position_x - WIZARD.position_x, 2 ) + 
-    			Math.pow( SNAFFLE.position_y - WIZARD.position_y, 2 )));
-    	
-		return distance;
+    public static double EVALUATE_OBJECT_TO_OBJECT(Wizard WIZARD, Snaffle SNAFFLE) {
+		/* Use in a for loop so it iterates through all the available snaffles(or whatever objects are needed) 
+		 * with this method and compares the distance between the current object and the node you wish to track down first.*/
+		return (Math.sqrt( Math.pow( Snaffle.getPositionX() - Wizard.getPositionX(), 2) + 
+    			Math.pow( Snaffle.getPositionY() - Wizard.getPositionY(), 2)));
     }
     
 }
@@ -102,8 +102,8 @@ class Player {
 class Entity {
 	
 	public static byte side_bias = 0;
-	protected int entityID = 0;
-	protected String entityType = "UNASSIGNED";
+	protected static int entityID = 0;
+	protected static String entityType = "UNASSIGNED";
 	// POSITION
 	protected static int position_x = 0;
 	protected static int position_y = 0;
@@ -136,8 +136,8 @@ class Entity {
 	public static int getVelocityY() { return velocity_y; }
 	
 	public Entity(int entityID, String entityType, int x, int y, int vy, int vx, int state) {
-		this.entityID = entityID;
-		this.entityType = entityType;
+		Entity.entityID = entityID;
+		Entity.entityType = entityType;
 		position_x = x;
 		position_y = y;
 		velocity_x = vx;
