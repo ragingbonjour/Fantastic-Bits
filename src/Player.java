@@ -41,12 +41,17 @@ class Player {
 				 * public Entity(int entityID, String entityType, int x, int y, int vy, int vx,
 				 * int state) {
 				 */
-				if (entityType.equals("WIZARD"))
-					Wizards.add(new Wizard(entityId, entityType, x, y, vx, vy, state));
-				else if (entityType.equals("OPPONENT_WIZARD"))
-					Opponents.add(new Opponent(entityId, entityType, x, y, vx, vy, state));
-				else if (entityType.equals("SNAFFLE"))
-					Snaffles.add(new Snaffle(entityId, entityType, x, y, vx, vy, state));
+				switch (entityType) {
+					case "WIZARD":
+						Wizards.add(new Wizard(entityId, entityType, x, y, vx, vy, state));
+						break;
+					case "OPPONENT_WIZARD":
+						Opponents.add(new Opponent(entityId, entityType, x, y, vx, vy, state));
+						break;
+					case "SNAFFLE":
+						Snaffles.add(new Snaffle(entityId, entityType, x, y, vx, vy, state));
+						break;
+				}
 			}
 
 			// ACTIONS FOR JUST THE FIRST TWO WIZARDS - THE ONES WE CONTROL
@@ -130,12 +135,10 @@ class Player {
 		if (teamID == 0) {
 			// Defines the range for where is needed to score (both here and the other loop
 			// below)
-			int[] temp = { 0, (entity.POLE_CENTER_Y - 2000), (entity.POLE_CENTER_Y + 2000) };
-			targetCoordinates = temp;
+			targetCoordinates = new int[] { 0, (entity.POLE_CENTER_Y - 2000), (entity.POLE_CENTER_Y + 2000) };
 		} else if (teamID == 1) {
 			// [ goal_center_coordinate, lowest_point, highest_point ]
-			int[] temp = { entity.BOARD_X, (entity.POLE_CENTER_Y - 2000), (entity.POLE_CENTER_Y + 2000) };
-			targetCoordinates = temp;
+			targetCoordinates = new int[] { entity.BOARD_X, (entity.POLE_CENTER_Y - 2000), (entity.POLE_CENTER_Y + 2000) };
 		}
 
 		return targetCoordinates;
