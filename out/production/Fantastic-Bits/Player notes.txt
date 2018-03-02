@@ -1,0 +1,41 @@
+make entity class
+	takes in parameters, entity id, type, x, y, velocity, state
+	
+create separate classes for the snaffles, wizards, opponents, extending entity object
+
+create array-lists of wizards snaffles and opponents and get information from all of those entities
+
+-tell wizards to after nearest snaffle and go to opponent goal
+-make sure that wizards aren't going after the same snaffle - GO AFTER CLOSEST ONE
+
+CONSTANTS
+	-Goal Areas
+	-Distinguish either side from friend/foe
+
+ENTITY
+	-WIZZARD (X, Y, entityID, HOLDING/NOT, VELOCITY)
+	-SNAFFLE (POSITION, )
+	-OPPONENTS
+
+	
+	
+BOARD:		16001 x 7501
+THRUST:		0 <= X <= 150	:	THROW X Y THRUST
+POWER:		0 <= X <= 500	:	THROW X Y POWER
+GOALS:		2 @ 4K APART	:	CENTRE @ Y=3750 
+POLES:		RADIUS 			: 	300 EACH
+WIZARDS:	DISC_RADIUS=400	: 	START NEAR GOAL - CAPTURE STATE AT BEGINNING
+								PASS INTO ENTITY ID AND MAKE 'FINAL'
+								0=LEFT : 1=RIGHT
+
+func: GRAB_NEAREST	: sort through arraylist of allied wizards and look at the hypotenuse of each vacant snaffle
+if(HOLDING_STATE == 0 && VACANT_SNAFFLES_STATUS = TRUE) {
+	
+}
+
+When we have the snaffle, if there's an opponent between the goal and us, find position of enemy, throw in 
+shortest route towards center randomly to the left or right of the obstacle.
+	~ for each vacant snaffle, evaluate the distance of the hypothesis for each snaffle not holding something
+	 already, and have them
+
+	
