@@ -45,6 +45,7 @@ class Player {
 					Opponents.add(new Opponent(entityId, entityType, x, y, vx, vy, state));
 					break;
 				case "SNAFFLE":
+					System.err.println(entityId);
 					Snaffles.add(new Snaffle(entityId, entityType, x, y, vx, vy, state));
 					break;
 				}
@@ -54,6 +55,9 @@ class Player {
 			    System.err.print("Snaffle: " + i + " with SnaffleID: " + Snaffles.get(i).getEntityID() + " | ");
             }
 
+			for (int i = 0 ; i < Wizards.size() ; i++) {
+			    System.err.print("Wizard: " + i + " with WizardID: " + Wizards.get(i).getEntityID() + " | ");
+            }
 
 			// ACTIONS FOR JUST THE FIRST TWO WIZARDS - THE ONES WE CONTROL
 			for (int i = 0; i < 2; i++) {
@@ -166,16 +170,16 @@ class Player {
 
 class Entity {
 
-	private static int entityID;
-	private static String entityType = "UNASSIGNED";
+	private int entityID;
+	private String entityType = "UNASSIGNED";
 	// POSITION
-	private static int x;
-	private static int y;
+	private int x;
+	private int y;
 	// VELOCITY
-	private static int vx;
-	private static int vy;
+	private int vx;
+	private int vy;
 
-	private static int state = 0; // 0 = NOT HOLDING, 1 = HOLDING
+	private int state = 0; // 0 = NOT HOLDING, 1 = HOLDING
 
 	// Modifications to the primary board
 	private final static int BOARD_X = 16001;
@@ -184,7 +188,7 @@ class Entity {
 	private final static short POLE_RADIUS = 300;
 	private final static int POLE_CENTER_Y = 3750;
 
-	public static int getEntityID() {
+	public int getEntityID() {
 	    return entityID;
     }
 
@@ -192,7 +196,7 @@ class Entity {
 		return DISK_RADIUS;
 	}
 
-	public static int getPOLE_RADIUS() {
+	public int getPOLE_RADIUS() {
 	    return POLE_RADIUS;
     }
 
@@ -220,22 +224,22 @@ class Entity {
 		return y;
 	}
 
-	public static int getVelocityX() {
+	public int getVelocityX() {
 		return vx;
 	}
 
-	public static int getVelocityY() {
+	public int getVelocityY() {
 		return vy;
 	}
 
 	public Entity(int entityID, String entityType, int x, int y, int vy, int vx, int state) {
-		Entity.entityID = entityID;
-		Entity.entityType = entityType;
-		Entity.x = x;
-		Entity.y = y;
-		Entity.vx = vx;
-		Entity.vy = vy;
-		Entity.state = state;
+		this.entityID = entityID;
+		this.entityType = entityType;
+		this.x = x;
+		this.y = y;
+		this.vx = vx;
+		this.vy = vy;
+		this.state = state;
 	}
 }
 
