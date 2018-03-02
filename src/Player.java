@@ -81,10 +81,10 @@ class Player {
 						} else {
 							if (Wizards.get(i).getPositionY() < targetCoordinates[1]) {
 								x_coordinate = targetCoordinates[0];
-								y_coordinate = targetCoordinates[1] + Entity.DISK_RADIUS;
+								y_coordinate = targetCoordinates[1] + Entity.getDISK_RADIUS();
 							} else if (Wizards.get(i).getPositionY() > targetCoordinates[2]) {
 								x_coordinate = targetCoordinates[0];
-								y_coordinate = targetCoordinates[1] - Entity.DISK_RADIUS;
+								y_coordinate = targetCoordinates[1] - Entity.getDISK_RADIUS();
 							}
 						}
 					}
@@ -135,10 +135,10 @@ class Player {
 		if (teamID == 0) {
 			// Defines the range for where is needed to score (both here and the other loop
 			// below)
-			targetCoordinates = new int[] { 0, (entity.POLE_CENTER_Y - 2000), (entity.POLE_CENTER_Y + 2000) };
+			targetCoordinates = new int[] { 0, (entity.getPOLE_CENTER_Y() - 2000), (entity.getPOLE_CENTER_Y() + 2000) };
 		} else if (teamID == 1) {
 			// [ goal_center_coordinate, lowest_point, highest_point ]
-			targetCoordinates = new int[] { entity.BOARD_X, (entity.POLE_CENTER_Y - 2000), (entity.POLE_CENTER_Y + 2000) };
+			targetCoordinates = new int[] { entity.getBOARD_X(), (entity.getPOLE_CENTER_Y() - 2000), (entity.getPOLE_CENTER_Y() + 2000) };
 		}
 
 		return targetCoordinates;
@@ -180,6 +180,12 @@ class Entity {
 	final static short DISK_RADIUS = 400;
 	// final static short POLE_RADIUS = 300;
 	final static int POLE_CENTER_Y = 3750;
+
+	public static int getDISK_RADIUS() { return DISK_RADIUS; }
+
+	public int getPOLE_CENTER_Y() { return POLE_CENTER_Y; }
+
+	public int getBOARD_X() { return BOARD_X; }
 
 	public int getState() {
 		return state;
