@@ -96,27 +96,24 @@ class Player {
 
 					double distanceEvaluation = 100000.0;
 					int snaffleIndex = 0;
-                    int bludgerIndex = 0;
-
-
 
 					for (int j = 0; j < Snaffles.size(); j++) {
-						// As long as the snaffle isn't already taken
-						if (Snaffles.get(j).getState() == 0) {
+						// As long as the snaffle isn't already taken OR TARGETED ALREADY
+						if (Snaffles.get(j).getState() == 0 && Snaffles.get(j).getIsTargeted() == false) {
 							double temp = EVALUATE_OBJECT_TO_OBJECT(Wizards.get(i), Snaffles.get(j));
 							if (temp < distanceEvaluation) {
 								distanceEvaluation = temp;
 								snaffleIndex = j;
+								Snaffles.get(j).setIsTargeted(true);
 							}
 						}
 					}
 
+					
+					
 					x_coordinate = Snaffles.get(snaffleIndex).getX();
 					y_coordinate = Snaffles.get(snaffleIndex).getY();
 
-
-
-					
 				}
 
 				// Write an action using System.out.println()
@@ -248,6 +245,17 @@ class Wizard extends Entity {
 }
 
 class Snaffle extends Entity {
+	// Use this to prioritize where to aim and collectively split up the load on the bots.
+	private boolean isTargeted = false;
+	
+	public void setIsTargeted(boolean isTargeted) {
+		this.isTargeted = isTargeted;
+	}
+	
+	public boolean getIsTargeted() {
+		return isTargeted;
+	}
+	
 	public Snaffle(int entityID, String entityType, int x, int y, int vy, int vx, int state) {
 		super(entityID, entityType, x, y, vy, vx, state);
 		// System.out.println("Creating snaffle state...");
