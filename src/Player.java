@@ -51,13 +51,13 @@ class Player {
 				}
 			}
 
-			for (int i = 0 ; i < Snaffles.size() ; i++) {
-			    System.err.print("Snaffle: " + i + " with SnaffleID: " + Snaffles.get(i).getEntityID() + " | ");
-            }
-
-			for (int i = 0 ; i < Wizards.size() ; i++) {
-			    System.err.print("Wizard: " + i + " with WizardID: " + Wizards.get(i).getEntityID() + " | ");
-            }
+//			for (int i = 0 ; i < Snaffles.size() ; i++) {
+//			    System.err.print("Snaffle: " + i + " with SnaffleID: " + Snaffles.get(i).getEntityID() + " | ");
+//            }
+//
+//			for (int i = 0 ; i < Wizards.size() ; i++) {
+//			    System.err.print("Wizard: " + i + " with WizardID: " + Wizards.get(i).getEntityID() + " | ");
+//            }
 
 			// ACTIONS FOR JUST THE FIRST TWO WIZARDS - THE ONES WE CONTROL
 			for (int i = 0; i < 2; i++) {
@@ -69,39 +69,28 @@ class Player {
 
 				/** Implement logic to get the hyponenuse of where to go for each of the bludgers, maybe take into
                  * account the velocity of each as well. */
-				try {
-					if (Wizards.get(i).getState() == 1) { // The wizard is holding a snaffle and is prepared to
-						// move/fire
-						action = "THROW";
-						throw_or_power = 500;
-						int[] targetCoordinates = EVALUATE_DISTANCE_TO_GOAL(Wizards.get(i), (byte) myTeamId);
-
-						// If the wizard is within the Y range of the goal, proceed to give the rest of
-						// the throw instructions to print
-						if (Wizards.get(i).getY() >= targetCoordinates[1]
-								&& Wizards.get(i).getY() <= targetCoordinates[2]) {
-							y_coordinate = Wizards.get(i).getY();
-							x_coordinate = Wizards.get(i).getX();
-						} else {
-							if (Wizards.get(i).getY() < targetCoordinates[1]) {
-								x_coordinate = targetCoordinates[0];
-								y_coordinate = targetCoordinates[1] + Entity.getDISK_RADIUS();
-							} else if (Wizards.get(i).getY() > targetCoordinates[2]) {
-								x_coordinate = targetCoordinates[0];
-								y_coordinate = targetCoordinates[1] - Entity.getDISK_RADIUS();
-							}
-						}
-					}
-				} catch (Exception e) {
-					System.err.print("Impossible to throw a snaffle without holding one.");
+				
+				if (Wizards.get(i).getState() == 1) { // The wizard is holding a snaffle and is prepared to
+					// move/fire
+					action = "THROW";
+					throw_or_power = 500;
+					int[] targetCoordinates = EVALUATE_DISTANCE_TO_GOAL(myTeamId);
+					
+					// If the wizard is within the Y range of the goal, proceed to give the rest of
+					// the throw instructions to print
+						
+					x_coordinate = targetCoordinates[0];
+					y_coordinate = targetCoordinates[1];
+						
 				}
+				
 
 				// HUNT NEAREST SNAFFLE
 				if (Wizards.get(i).getState() == 0) {
 					action = "MOVE";
 					throw_or_power = 150;
 
-					double distanceEvaluation = 0.0;
+					double distanceEvaluation = 100000.0;
 					int snaffleIndex = 0;
 
 					for (int j = 0; j < Snaffles.size(); j++) {
@@ -132,20 +121,18 @@ class Player {
 		}
 	}
 
-	private static int[] EVALUATE_DISTANCE_TO_GOAL(Entity entity, byte teamID) {
+	private static int[] EVALUATE_DISTANCE_TO_GOAL(int teamID) {
 		// Make priority depending on which goal we require to score on
 		int[] targetCoordinates = null;
-
+//		[0] = x, [1] = y.
+		
+		// START ON RIGHT - AIM LEFT
 		if (teamID == 0) {
-			// Defines the range for where is needed to score (both here and the other loop
-			// below)
-			targetCoordinates = new int[] { 0, (entity.getPOLE_CENTER_Y() - 2000), (entity.getPOLE_CENTER_Y() + 2000) };
-		} else if (teamID == 1) {
-			// [ goal_center_coordinate, lowest_point, highest_point ]
-			targetCoordinates = new int[] { entity.getBOARD_X(), (entity.getPOLE_CENTER_Y() - 2000),
-					(entity.getPOLE_CENTER_Y() + 2000) };
+			targetCoordinates = new int[] {16000, 3750};
+		} else if(teamID == 1) {
+			targetCoordinates = new int[] {0, 3750};
 		}
-
+		
 		return targetCoordinates;
 	}
 
@@ -160,8 +147,8 @@ class Player {
 
 				Math.pow(SNAFFLE.getX() - WIZARD.getX(), 2) + Math.pow(SNAFFLE.getY() - WIZARD.getY(), 2)));
 
-		if (hyp < 0)
-			hyp = hyp * (-1);
+//		if (hyp < 0)
+//			hyp = hyp * (-1);
 
 		return hyp;
 	}
