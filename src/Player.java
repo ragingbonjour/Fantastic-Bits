@@ -17,7 +17,7 @@ class Player {
 			ArrayList<Wizard> Wizards = new ArrayList<>();
 			ArrayList<Snaffle> Snaffles = new ArrayList<>();
 			ArrayList<Opponent> Opponents = new ArrayList<>();
-			ArrayList(Bludger) Bludgers = new ArrayList<>();
+			ArrayList<Bludger> Bludgers = new ArrayList<>();
 
 			int myScore = in.nextInt();
 			int myMagic = in.nextInt();
@@ -39,17 +39,20 @@ class Player {
 				int state = in.nextInt(); // 1 if the wizard is holding a Snaffle, 0 otherwise
 
 				switch (entityType) {
-				case "WIZARD":
-					Wizards.add(new Wizard(entityId, entityType, x, y, vx, vy, state));
-					break;
-				case "OPPONENT_WIZARD":
-					Opponents.add(new Opponent(entityId, entityType, x, y, vx, vy, state));
-					break;
-				case "SNAFFLE":
-					System.err.println(entityId);
-					Snaffles.add(new Snaffle(entityId, entityType, x, y, vx, vy, state));
-					break;
-				}
+                    case "WIZARD":
+                        Wizards.add(new Wizard(entityId, entityType, x, y, vx, vy, state));
+                        break;
+                    case "OPPONENT_WIZARD":
+                        Opponents.add(new Opponent(entityId, entityType, x, y, vx, vy, state));
+                        break;
+                    case "SNAFFLE":
+                        System.err.println(entityId);
+                        Snaffles.add(new Snaffle(entityId, entityType, x, y, vx, vy, state));
+                        break;
+                    case "BLUDGER":
+                        Bludgers.add(new Bludger(entityId, entityType, x, y, vx, vy, state));
+                        break;
+                }
 			}
 
 //			for (int i = 0 ; i < Snaffles.size() ; i++) {
@@ -76,13 +79,13 @@ class Player {
 					action = "THROW";
 					throw_or_power = 500;
 					int[] targetCoordinates = EVALUATE_DISTANCE_TO_GOAL(myTeamId);
-					
+
 					// If the wizard is within the Y range of the goal, proceed to give the rest of
 					// the throw instructions to print
-						
+
 					x_coordinate = targetCoordinates[0];
 					y_coordinate = targetCoordinates[1];
-						
+
 				}
 				
 
@@ -93,6 +96,9 @@ class Player {
 
 					double distanceEvaluation = 100000.0;
 					int snaffleIndex = 0;
+                    int bludgerIndex = 0;
+
+
 
 					for (int j = 0; j < Snaffles.size(); j++) {
 						// As long as the snaffle isn't already taken
@@ -108,6 +114,9 @@ class Player {
 					x_coordinate = Snaffles.get(snaffleIndex).getX();
 					y_coordinate = Snaffles.get(snaffleIndex).getY();
 
+
+
+					
 				}
 
 				// Write an action using System.out.println()
