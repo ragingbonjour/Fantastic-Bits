@@ -17,6 +17,7 @@ class Player {
 			ArrayList<Wizard> Wizards = new ArrayList<>();
 			ArrayList<Snaffle> Snaffles = new ArrayList<>();
 			ArrayList<Opponent> Opponents = new ArrayList<>();
+			ArrayList(Bludger) Bludgers = new ArrayList<>();
 
 			int myScore = in.nextInt();
 			int myMagic = in.nextInt();
@@ -249,4 +250,20 @@ class Opponent extends Entity {
 		super(entityID, entityType, x, y, vy, vx, state);
 		// System.out.println("Creating Opponent state...");
 	}
+}
+
+class Bludger extends Entity {
+//	From the documentation, -1 is the default if no one has been hit with it yet - SENT BY GAME IN OBJECT INFORMATION
+	int lastVictimID = -1;
+	final int bludgerRadius = 200;
+	
+	public int getLastVictimID() { return lastVictimID; }
+	
+	public int getBludgerRadius() { return bludgerRadius; }
+	
+	public Bludger(int entityID, String entityType, int x, int y, int vy, int vx, int state) {
+		super(entityID, entityType, x, y, vy, vx, state);
+		lastVictimID = state;
+	}
+	
 }
