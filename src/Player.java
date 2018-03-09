@@ -12,12 +12,12 @@ class Player {
 		// left
 
 		// game loop
-        do {
+        while(true) {
 
             ArrayList<Wizard> Wizards = new ArrayList<>();
             ArrayList<Snaffle> Snaffles = new ArrayList<>();
-            ArrayList<Opponent> Opponents = new ArrayList<>();
-            ArrayList<Bludger> Bludgers = new ArrayList<>();
+//            ArrayList<Opponent> Opponents = new ArrayList<>();
+//            ArrayList<Bludger> Bludgers = new ArrayList<>();
 
             int myScore = in.nextInt();
             int myMagic = in.nextInt();
@@ -42,26 +42,18 @@ class Player {
                     case "WIZARD":
                         Wizards.add(new Wizard(entityId, entityType, x, y, vx, vy, state));
                         break;
-                    case "OPPONENT_WIZARD":
-                        Opponents.add(new Opponent(entityId, entityType, x, y, vx, vy, state));
-                        break;
+//                    case "OPPONENT_WIZARD":
+//                        Opponents.add(new Opponent(entityId, entityType, x, y, vx, vy, state));
+//                        break;
                     case "SNAFFLE":
                         System.err.println(entityId);
                         Snaffles.add(new Snaffle(entityId, entityType, x, y, vx, vy, state));
                         break;
-                    case "BLUDGER":
-                        Bludgers.add(new Bludger(entityId, entityType, x, y, vx, vy, state));
-                        break;
+//                    case "BLUDGER":
+//                        Bludgers.add(new Bludger(entityId, entityType, x, y, vx, vy, state));
+//                        break;
                 }
             }
-
-//			for (int i = 0 ; i < Snaffles.size() ; i++) {
-//			    System.err.print("Snaffle: " + i + " with SnaffleID: " + Snaffles.get(i).getEntityID() + " | ");
-//            }
-//
-//			for (int i = 0 ; i < Wizards.size() ; i++) {
-//			    System.err.print("Wizard: " + i + " with WizardID: " + Wizards.get(i).getEntityID() + " | ");
-//            }
 
             // ACTIONS FOR JUST THE FIRST TWO WIZARDS - THE ONES WE CONTROL
             for (int i = 0; i < 2; i++) {
@@ -71,7 +63,7 @@ class Player {
                 int y_coordinate = 0;
                 short throw_or_power = 0;
 
-                /** Implement logic to get the hyponenuse of where to go for each of the bludgers, maybe take into
+                /* Implement logic to get the hypotenuse of where to go for each of the bludgers, maybe take into
                  * account the velocity of each as well. */
 
                 if (Wizards.get(i).getState() == 1) { // The wizard is holding a snaffle and is prepared to
@@ -94,15 +86,15 @@ class Player {
                     action = "MOVE";
                     throw_or_power = 150;
 
-                    double distanceEvaluation = 100000.0;
+                    double closenessThreshold = 100000.0;
                     int snaffleIndex = 0;
 
                     for (int j = 0; j < Snaffles.size(); j++) {
                         // As long as the snaffle isn't already taken OR TARGETED ALREADY
                         if (Snaffles.get(j).getState() == 0 && !Snaffles.get(j).getIsTargeted()) {
-                            double temp = EVALUATE_OBJECT_TO_OBJECT(Wizards.get(i), Snaffles.get(j));
-                            if (temp < distanceEvaluation) {
-                                distanceEvaluation = temp;
+                            double evaluation = EVALUATE_OBJECT_TO_OBJECT(Wizards.get(i), Snaffles.get(j));
+                            if (evaluation < closenessThreshold) {
+                                closenessThreshold = evaluation;
                                 snaffleIndex = j;
                                 Snaffles.get(j).setIsTargeted(true);
                             }
@@ -124,7 +116,7 @@ class Player {
                 System.out.println(action + " " + x_coordinate + " " + y_coordinate + " " + throw_or_power);
                 // System.out.println("MOVE 8000 3750 100");
             }
-        } while (true);
+        }
 	}
 
 	private static int[] EVALUATE_DISTANCE_TO_GOAL(int teamID) {
@@ -143,67 +135,54 @@ class Player {
 	}
 
 	private static double EVALUATE_OBJECT_TO_OBJECT(Wizard WIZARD, Snaffle SNAFFLE) {
-		/*
-		 * Use in a for loop so it iterates through all the available snaffles(or
-		 * whatever objects are needed) with this method and compares the distance
-		 * between the current object and the node you wish to track down first.
-		 */
-
-		double hyp = (Math.sqrt(
-
-				Math.pow(SNAFFLE.getX() - WIZARD.getX(), 2) + Math.pow(SNAFFLE.getY() - WIZARD.getY(), 2)));
-
-//		if (hyp < 0)
-//			hyp = hyp * (-1);
-
-		return hyp;
+		return ( Math.sqrt( Math.pow(SNAFFLE.getX() - WIZARD.getX(), 2) + Math.pow(SNAFFLE.getY() - WIZARD.getY(), 2)));
 	}
 
 }
 
 class Entity {
 
-	private int entityID;
-	private String entityType = "UNASSIGNED";
+//	private int entityID;
+//	private String entityType;
 	// POSITION
 	private int x;
 	private int y;
 	// VELOCITY
-	private int vx;
-	private int vy;
+//	private int vx;
+//	private int vy;
 
-	private int state = 0; // 0 = NOT HOLDING, 1 = HOLDING
+	private int state; // 0 = NOT HOLDING, 1 = HOLDING
 
 	// Modifications to the primary board
-	private final static int BOARD_X = 16001;
-	private final static int BOARD_Y = 7501;
-	private final static short DISK_RADIUS = 400;
-	private final static short POLE_RADIUS = 300;
-	private final static int POLE_CENTER_Y = 3750;
+//	private final static int BOARD_X = 16001;
+//	private final static int BOARD_Y = 7501;
+//	private final static short DISK_RADIUS = 400;
+//	private final static short POLE_RADIUS = 300;
+//	private final static int POLE_CENTER_Y = 3750;
 
-	public int getEntityID() {
-	    return entityID;
-    }
-
-	public static int getDISK_RADIUS() {
-		return DISK_RADIUS;
-	}
-
-	public int getPOLE_RADIUS() {
-	    return POLE_RADIUS;
-    }
-
-	public int getPOLE_CENTER_Y() {
-		return POLE_CENTER_Y;
-	}
-
-	public int getBOARD_X() {
-		return BOARD_X;
-	}
-
-	public int getBOARD_Y() {
-	    return BOARD_Y;
-	}
+//	public int getEntityID() {
+//	    return entityID;
+//    }
+//
+//	public static int getDISK_RADIUS() {
+//		return DISK_RADIUS;
+//	}
+//
+//	public int getPOLE_RADIUS() {
+//	    return POLE_RADIUS;
+//    }
+//
+//	public int getPOLE_CENTER_Y() {
+//		return POLE_CENTER_Y;
+//	}
+//
+//	public int getBOARD_X() {
+//		return BOARD_X;
+//	}
+//
+//	public int getBOARD_Y() {
+//	    return BOARD_Y;
+//	}
 
 	public int getState() {
 		return state;
@@ -217,21 +196,21 @@ class Entity {
 		return y;
 	}
 
-	public int getVelocityX() {
-		return vx;
-	}
-
-	public int getVelocityY() {
-		return vy;
-	}
+//	public int getVelocityX() {
+//		return vx;
+//	}
+//
+//	public int getVelocityY() {
+//		return vy;
+//	}
 
 	public Entity(int entityID, String entityType, int x, int y, int vy, int vx, int state) {
-		this.entityID = entityID;
-		this.entityType = entityType;
+//		this.entityID = entityID;
+//		this.entityType = entityType;
 		this.x = x;
 		this.y = y;
-		this.vx = vx;
-		this.vy = vy;
+//		this.vx = vx;
+//		this.vy = vy;
 		this.state = state;
 	}
 }
@@ -270,15 +249,15 @@ class Opponent extends Entity {
 
 class Bludger extends Entity {
 //	From the documentation, -1 is the default if no one has been hit with it yet - SENT BY GAME IN OBJECT INFORMATION
-	private int lastVictimID = -1;
-//	Last victim information is supplied already in the state field on ititialization, so a set method isn't necessary here
-	public int getLastVictimID() { return lastVictimID; }
-	
-	public int getBludgerRadius() { return 200; }
+//	private int lastVictimID = -1;
+//	Last victim information is supplied already in the state field on initialization, so a set method isn't necessary here
+//	public int getLastVictimID() { return lastVictimID; }
+//
+//	public int getBludgerRadius() { return 200; }
 	
 	public Bludger(int entityID, String entityType, int x, int y, int vy, int vx, int state) {
 		super(entityID, entityType, x, y, vy, vx, state);
-		lastVictimID = state;
+//		lastVictimID = state;
 	}
 	
 }
